@@ -28,6 +28,13 @@ Vertex petalas[] = {
     {-25.0, -SIN_60 * 50}
 };
 
+Vertex caul[] = {
+    {-1.5, 0.0},
+    {1.5, 0.0},
+    {-1.5, -200.0},
+    {1.5, -200.0}
+};
+
 void rotacao(float angle)
 {
     Vertex previous;
@@ -46,9 +53,9 @@ void rotacao(float angle)
 
 void velocidade(int value)
 {
-    float change = velocidade_ang + value * PI / 20; // calculo da mudança de velocidade
+    float change = velocidade_ang + value * PI / 16; // calculo da mudança de velocidade
 
-    if (change >= PI / 20 && change <= PI)
+    if (change >= PI / 16 && change <= PI)
         velocidade_ang = change;    
 }
 
@@ -71,15 +78,13 @@ void gerencia_teclado(unsigned char key, int x, int y)
 
 void petala()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
-        for (int i = 0; i < 6; i = i + 2)
+        for (int i = 0; i < 6; i += 2)
         {
             glBegin(GL_TRIANGLES);
-            glColor3d(1.0f, 1.0f, 1.0f); // cor da pétala
-            
+            glColor3d(0.0f, 0.0f, 1.0f); // cor da pétala
             glVertex2f(0.0f, 0.0f);
 
-            for (int j = i; j < i + 2; j++)
+            for (int j = i; j <= i + 2; j++)
             {   
                 GLfloat x = petalas[j].x;
                 GLfloat y = petalas[j].y;
@@ -90,9 +95,30 @@ void petala()
         }
 }
 
+void caule(){
+
+    for (int i=0; i<2; i++){
+
+        glBegin(GL_TRIANGLES);
+        glColor3d(1.0, 1.0, 0.0); // cor do caule 
+
+        for (int j = i; j <= i + 3; j++)
+        {
+            GLfloat x = caul[j].x;
+            GLfloat y = caul[j].y;
+
+            glVertex2i(x, y);
+        }
+
+        glEnd();
+        
+    }
+}
+
 void display(void) // renderizar as formas 
 {
     glClear(GL_COLOR_BUFFER_BIT); 
+    caule();
     petala();
     glutSwapBuffers();
 }
@@ -102,14 +128,15 @@ int main(int argc, char **argv)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize(500, 400); // tamanho da janela
-    glutCreateWindow("Catavento do CSA");
+    glutCreateWindow("Catavento");
 
-    glClearColor(0.0f, 0.0f, 1.0f, 0.0f); // cor de fundo
-    gluOrtho2D(-150, 150, -150, 150);
-    glutReshapeWindow(400, 400);
+    glClearColor(0.0f, 1.0f, 0.5f, 0.0f); // cor de fundo
+    glutReshapeWindow(300, 300);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+
+    gluOrtho2D(-150, 150, -150, 150); 
 
     glutDisplayFunc(display);
     glutKeyboardFunc(gerencia_teclado);
