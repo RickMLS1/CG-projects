@@ -25,7 +25,8 @@ Vertex petalas[] = {
     {50.0f, 0.0f},
     {25.0, - SIN_60 * 50},
     {-50.0f, 0.0f},
-    {-25.0, -SIN_60 * 50}};
+    {-25.0, -SIN_60 * 50}
+};
 
 void rotacao(float angle)
 {
